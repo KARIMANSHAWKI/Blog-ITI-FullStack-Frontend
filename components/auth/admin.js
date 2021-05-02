@@ -7,7 +7,7 @@ const Admin = ({children}) =>{
             if(!isAuth()){
                 Router.push('/signin')
             } else if (isAuth() && isAuth().role !== 1){
-
+                Router.push('/')
             }
         },[]);
 
