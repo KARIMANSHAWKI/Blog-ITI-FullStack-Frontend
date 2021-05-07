@@ -245,12 +245,8 @@ const BlogCreate = ({ router }) => {
          <hr />
          <ul style={{maxHeight: '200px', overflowY:'scroll'}}> {showTags()}</ul>
          </div>
-
       </div>
       </div>
-      
-     
-
     </div>
   )
 };
