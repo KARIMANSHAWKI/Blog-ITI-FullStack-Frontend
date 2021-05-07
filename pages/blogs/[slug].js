@@ -5,9 +5,12 @@ import { singleBlog } from "../../actions/blog";
 import { API, DOMAIN, APP_NAME, FB_APP_ID } from "../../config";
 import React, { useState } from "react";
 import moment from "moment";
-import renderHTML from 'react-render-html';
+import renderHTML from "react-render-html";
 
-const SingleBlog = ({ blog }) => {
+
+
+const SingleBlog = ({ blog, query }) => {
+
   const showCategories = (blog) =>
     blog.categories.map((c, i) => (
       <Link key={i} href={`/categories/${c.slug}`}>
@@ -22,8 +25,42 @@ const SingleBlog = ({ blog }) => {
       </Link>
     ));
 
+  const head = () => (
+    <Head>
+      <title>{blog.title} | {APP_NAME}</title>
+      <meta
+        name="description"
+        content={blog.mdesc}
+      />
+
+      <link rel="canonical" href={`${DOMAIN}/blogs/${query.slug}`} />
+      <meta
+        property="og:title"
+        content={`${blog.title} | ${APP_NAME}`}
+      />
+
+      <meta
+        property="og:description"
+        content={blog.mdesc}
+      />
+
+      <meta property="og:type" content="webiste" />
+      <meta property="og:url" content={`${DOMAIN}/blogs/${query.slug}`} />
+      <meta property="og:site_name" content={`${APP_NAME}`} />
+
+      <meta property="og:image" content={`${DOMAIN}/static/images/blog.jpg`} />
+      <meta
+        property="og:image:secure_url"
+        ccontent={`${API}/api/blog/photo/${blog.slug}`}
+      />
+      <meta property="og:image:type" content="image/jpg" />
+      <meta property="fb:app_id" content={`${FB_APP_ID}`} />
+    </Head>
+  );
+
   return (
     <React.Fragment>
+        {head()}
       <Layout>
         <main>
           <article>
@@ -39,32 +76,37 @@ const SingleBlog = ({ blog }) => {
               </section>
 
               <section>
-                <p className="lead pt-3 mark">
-                  Written by {blog.postedBy.name} | Published{" "}
-                  {moment(blog.updatedAt).fromNow()}
-                </p>
+                <div className="container">
+                  <h1 className="display-2 pb-3 pt-4 text-center font-weight-bold">
+                    {blog.title}
+                  </h1>
+                  <p className="lead pt-3 mark">
+                    Written by {blog.postedBy.name} | Published{" "}
+                    {moment(blog.updatedAt).fromNow()}
+                  </p>
 
-                <div className="pb-3">
-                  {showCategories(blog)}
-                  {showTags(blog)}
+                  <div className="pb-3">
+                    {showCategories(blog)}
+                    {showTags(blog)}
+                  </div>
                 </div>
               </section>
             </div>
 
             <div className="container">
-                <section>
-                    <div className="col-md-12 lead">{renderHTML(blog.body)}</div>
-                </section>
+              <section>
+                <div className="col-md-12 lead">{renderHTML(blog.body)}</div>
+              </section>
             </div>
 
             <div className="container pt-3">
-                <h4 className="text-center pt-5 pb-5 h2"> Related Blogs</h4>
-                <hr/>
-                <p>show related blogs</p>
+              <h4 className="text-center pt-5 pb-5 h2"> Related Blogs</h4>
+              <hr />
+              <p>show related blogs</p>
             </div>
 
             <div className="container pt-3">
-                <p>show comments</p>
+              <p>show comments</p>
             </div>
           </article>
         </main>
@@ -78,7 +120,7 @@ SingleBlog.getInitialProps = ({ query }) => {
     if (data.error) {
       console.log(error);
     } else {
-      return { blog: data };
+      return { blog: data, query };
     }
   });
 };
