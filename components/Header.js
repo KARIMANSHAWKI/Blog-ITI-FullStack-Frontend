@@ -39,6 +39,13 @@ const Header = () => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
+
+          <React.Fragment>
+                <Link href="/blogs">
+                  <NavLink>Blogs</NavLink>
+                </Link>
+         </React.Fragment>
+ 
             {!isAuth() && (
               <React.Fragment>
                 <Link href="/signup">
@@ -49,7 +56,6 @@ const Header = () => {
                 </Link>
               </React.Fragment>
             )}
-            {/* {console.log(JSON.stringify(isAuth()))} */}
             {isAuth() && (
               <NavItem>
                 <Link href="/signin">
