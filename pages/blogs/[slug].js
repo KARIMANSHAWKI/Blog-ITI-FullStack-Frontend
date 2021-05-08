@@ -78,7 +78,7 @@ const SingleBlog = ({ blog, query }) => {
       <meta property="og:image" content={`${DOMAIN}/static/images/blog.jpg`} />
       <meta
         property="og:image:secure_url"
-        ccontent={`${API}/api/blog/photo/${blog.slug}`}
+        content={`${API}/api/blog/photo/${blog.slug}`}
       />
       <meta property="og:image:type" content="image/jpg" />
       <meta property="fb:app_id" content={`${FB_APP_ID}`} />

@@ -1,4 +1,4 @@
-import { Link } from "next/link";
+import  Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { getCookie, isAuth } from "../../actions/auth";
 import { list, removeBlog, updateBlog } from "../../actions/blog";
@@ -24,6 +24,7 @@ const ReadBlogs = () => {
     });
   };
 
+
   const deleteBlog = (slug) =>{
     removeBlog(slug, token).then(data =>{
         if(data.error){
@@ -42,6 +43,25 @@ const ReadBlogs = () => {
       }
   }
 
+
+  const showUpdateButton = blog => {
+    if (isAuth() && isAuth().role === 0) {
+        return (
+            <Link href={`/user/crud/${blog.slug}`}>
+                <a className="btn btn-sm btn-warning">Update</a>
+            </Link>
+        );
+    } else if (isAuth() && isAuth().role === 1) {
+        return (
+            <Link href={`/admin/crud/${blog.slug}`}>
+                <a className="ml-2 btn btn-sm btn-warning">Update</a>
+            </Link>
+        );
+    }
+  }
+
+
+
   const showAllBlogs = () => {
     return blogs.map((blog, i) => {
       return (
@@ -57,6 +77,7 @@ const ReadBlogs = () => {
           >
             Delete
           </button>
+          {showUpdateButton(blog)}
         </div>
       );
     });
@@ -71,6 +92,7 @@ const ReadBlogs = () => {
               {showAllBlogs()}
               </div>
         </div>
+        
       </div>
     </React.Fragment>
   );

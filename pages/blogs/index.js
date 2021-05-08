@@ -36,7 +36,7 @@ const Blogs = ({ blogs, categories, tags, totalBlogs,blogsLimit,blogSkip, router
       <meta property="og:image" content={`${DOMAIN}/static/images/blog.jpg`} />
       <meta
         property="og:image:secure_url"
-        ccontent={`${DOMAIN}/static/images/blog.jpg`}
+        content={`${DOMAIN}/static/images/blog.jpg`}
       />
       <meta property="og:image:type" content="image/jpg" />
       <meta property="fb:app_id" content={`${FB_APP_ID}`} />
