@@ -1,5 +1,6 @@
 import fetch from "isomorphic-fetch";
 import { API } from "../config";
+import queryString from 'query-string'
 
 
 // *********************** Create Category **********************
@@ -18,7 +19,7 @@ export const createBlog = (blog, token) => {
     .catch((err) => console.log(err));
 };
 
-
+// *********************** listBlogWithTagsAndCategory ********************
 export const listBlogWithTagsAndCategory = (skip, limit) => {
   const data = {
     limit,
@@ -40,6 +41,7 @@ export const listBlogWithTagsAndCategory = (skip, limit) => {
     .catch((err) => console.log(err));
 };
 
+// **************************** Single Blog *****************************
 export const singleBlog = slug => {
       return fetch(`${API}/api/blog/${slug}`,{
         method : 'GET'
@@ -50,6 +52,7 @@ export const singleBlog = slug => {
 }
 
 
+// *********************** List all related blogs ****************************
 export const listRelated = blog => {
 
   return fetch(`${API}/api/blogs/related`, {
@@ -109,3 +112,15 @@ export const updateBlog = (blog, token, slug) => {
     .catch((err) => console.log(err));
 };
 
+export const listSearch = params => {
+  console.log('search params', params);
+  let query = queryString.stringify(params);
+  console.log('query params', query);
+  return fetch(`${API}/api/blog/search?${query}`, {
+      method: 'GET'
+  })
+      .then(response => {
+          return response.json();
+      })
+      .catch(err => console.log(err));
+};

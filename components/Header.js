@@ -3,7 +3,8 @@ import { APP_NAME } from "../config";
 import Link from "next/link";
 import { isAuth, signout } from "../actions/auth";
 import Router, { useRouter } from "next/router";
-import NProgress from 'nprogress'
+import NProgress from "nprogress";
+import Search from "../components/blog/Search";
 
 import {
   Collapse,
@@ -20,18 +21,18 @@ import {
   NavbarText,
 } from "reactstrap";
 
-import '.././node_modules/nprogress/nprogress.css'
+import ".././node_modules/nprogress/nprogress.css";
 
-Router.onRouteChangeStart = url => NProgress.start()
-Router.onRouteChangeComplete = url => NProgress.done()
-Router.onRouteChangeError = url => NProgress.done()
+Router.onRouteChangeStart = (url) => NProgress.start();
+Router.onRouteChangeComplete = (url) => NProgress.done();
+Router.onRouteChangeError = (url) => NProgress.done();
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const router = useRouter();
   return (
-    <div>
+    <React.Fragment>
       <Navbar color="light" light expand="md">
         <Link href="/">
           <NavLink className="font-weight-bold">{APP_NAME}</NavLink>
@@ -39,13 +40,12 @@ const Header = () => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
+            <React.Fragment>
+              <Link href="/blogs">
+                <NavLink>Blogs</NavLink>
+              </Link>
+            </React.Fragment>
 
-          <React.Fragment>
-                <Link href="/blogs">
-                  <NavLink>Blogs</NavLink>
-                </Link>
-         </React.Fragment>
- 
             {!isAuth() && (
               <React.Fragment>
                 <Link href="/signup">
@@ -85,10 +85,15 @@ const Header = () => {
                 </Link>
               </NavItem>
             )}
+
+            <Link href="/user/crud/blog">
+              <NavLink className="btn btn-primary text-light">Write a blog</NavLink>
+            </Link>
           </Nav>
         </Collapse>
       </Navbar>
-    </div>
+      <Search />
+    </React.Fragment>
   );
 };
 

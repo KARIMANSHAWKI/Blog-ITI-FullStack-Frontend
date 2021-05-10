@@ -6,28 +6,24 @@ import { API, DOMAIN, APP_NAME, FB_APP_ID } from "../../config";
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import renderHTML from "react-render-html";
-import  SmallCard from '../../components/blog/SmallCard'
-
+import SmallCard from "../../components/blog/SmallCard";
 
 const SingleBlog = ({ blog, query }) => {
+  const [related, setRelated] = useState([]);
 
-    const [related, setRelated] = useState([]);
-  
-
-    const loadRelated = () => {
-      listRelated({ blog }).then(data => {
-        if (data.error) {
-          console.log(data.error);
+  const loadRelated = () => {
+    listRelated({ blog }).then((data) => {
+      if (data.error) {
+        console.log(data.error);
       } else {
-          setRelated(data);
+        setRelated(data);
       }
-      
-      });
+    });
   };
 
-    useEffect(()=>{
-      loadRelated()
-    },[])
+  useEffect(() => {
+    loadRelated();
+  }, []);
 
   const showCategories = (blog) =>
     blog.categories.map((c, i) => (
@@ -43,33 +39,26 @@ const SingleBlog = ({ blog, query }) => {
       </Link>
     ));
 
-    const showRelatedBlog = () => {
-      return related.map((blog, i) => (
-          <div className="col-md-4" key={i}>
-              <article>
-                  <SmallCard blog={blog} />
-              </article>
-          </div>
-      ));
+  const showRelatedBlog = () => {
+    return related.map((blog, i) => (
+      <div className="col-md-4" key={i}>
+        <article>
+          <SmallCard blog={blog} />
+        </article>
+      </div>
+    ));
   };
   const head = () => (
     <Head>
-      <title>{blog.title} | {APP_NAME}</title>
-      <meta
-        name="description"
-        content={blog.mdesc}
-      />
+      <title>
+        {blog.title} | {APP_NAME}
+      </title>
+      <meta name="description" content={blog.mdesc} />
 
       <link rel="canonical" href={`${DOMAIN}/blogs/${query.slug}`} />
-      <meta
-        property="og:title"
-        content={`${blog.title} | ${APP_NAME}`}
-      />
+      <meta property="og:title" content={`${blog.title} | ${APP_NAME}`} />
 
-      <meta
-        property="og:description"
-        content={blog.mdesc}
-      />
+      <meta property="og:description" content={blog.mdesc} />
 
       <meta property="og:type" content="webiste" />
       <meta property="og:url" content={`${DOMAIN}/blogs/${query.slug}`} />
@@ -84,10 +73,10 @@ const SingleBlog = ({ blog, query }) => {
       <meta property="fb:app_id" content={`${FB_APP_ID}`} />
     </Head>
   );
-// *********************************************************************//
+  // *********************************************************************//
   return (
     <React.Fragment>
-        {head()}
+      {head()}
       <Layout>
         <main>
           <article>
@@ -108,8 +97,11 @@ const SingleBlog = ({ blog, query }) => {
                     {blog.title}
                   </h1>
                   <p className="lead pt-3 mark">
-                    Written by {blog.postedBy.name} | Published{" "}
-                    {moment(blog.updatedAt).fromNow()}
+                    Written by {""}
+                    <Link href={`/profile/${blog.postedBy.username}`}>
+                      <a>{blog.postedBy.username}</a>
+                    </Link>
+                    | Published {moment(blog.updatedAt).fromNow()}
                   </p>
 
                   <div className="pb-3">
@@ -128,9 +120,7 @@ const SingleBlog = ({ blog, query }) => {
 
             <div className="container pt-3">
               <h4 className="text-center pt-5 pb-5 h2"> Related Blogs</h4>
-                <div className="row">
-                {showRelatedBlog()}
-                </div>
+              <div className="row">{showRelatedBlog()}</div>
             </div>
 
             <div className="container pt-3">
@@ -141,16 +131,15 @@ const SingleBlog = ({ blog, query }) => {
       </Layout>
     </React.Fragment>
   );
-  }
+};
 
 SingleBlog.getInitialProps = ({ query }) => {
   return singleBlog(query.slug).then((data) => {
     if (data.error) {
-      console.log(error);
+      console.log(data.error);
     } else {
       return { blog: data, query };
     }
   });
 };
-
 export default SingleBlog;

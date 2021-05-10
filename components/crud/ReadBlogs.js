@@ -68,7 +68,7 @@ const ReadBlogs = () => {
         <div key={i} className="pb-5">
           <h3>{blog.title}</h3>
           <p className="mark">
-            Written by {blog.postedBy.name} | Published{" "}
+            Written by {blog.postedBy.username} | Published{" "}
             {moment(blog.updatedAt).fromNow()}
           </p>
           <button
