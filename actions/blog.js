@@ -1,11 +1,19 @@
 import fetch from "isomorphic-fetch";
 import { API } from "../config";
 import queryString from 'query-string'
+import {isAuth} from './auth'
 
-
-// *********************** Create Category **********************
+// *********************** Create Blog **********************
 export const createBlog = (blog, token) => {
-  return fetch(`${API}/api/blog`, {
+  let createBlogEndpoint;
+
+  if(isAuth() && isAuth().role===1){
+    createBlogEndpoint = `${API}/api/blog`
+  } else {
+    createBlogEndpoint = `${API}/api/user/blog`
+  }
+
+  return fetch(`${createBlogEndpoint}`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -16,7 +24,7 @@ export const createBlog = (blog, token) => {
     .then((response) => {
       return response.json();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
 };
 
 // *********************** listBlogWithTagsAndCategory ********************
