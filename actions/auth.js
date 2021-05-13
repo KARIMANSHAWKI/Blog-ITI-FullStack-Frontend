@@ -1,20 +1,35 @@
 import fetch from "isomorphic-fetch";
 import { API } from "../config";
 import cookie from "js-cookie";
+import  Router  from 'next/router';
 
-export const signup = user => {
+
+export const handleResponse = (response) => {
+  if (response.status === 401) {
+    signout(() => {
+      Router.push({
+        pathname: "/signin",
+        query: {
+          message: "Your session is expired. Please signin",
+        },
+      });
+    });
+  }
+};
+
+export const signup = (user) => {
   return fetch(`${API}/api/signup`, {
-      method: 'POST',
-      headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user)
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
   })
-      .then(response => {
-          return response.json();
-      })
-      .catch(err => console.log(err));
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
 };
 // ***************************************************************** //
 export const signIn = (user) => {
@@ -27,9 +42,9 @@ export const signIn = (user) => {
     body: JSON.stringify(user),
   })
     .then((response) => {
-       return response.json();
+      return response.json();
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 };
 
 //  *************************************************************** //

@@ -23,16 +23,17 @@ const Card = ({ blog }) => {
       <header>
         <Link href={`/blogs/${blog.slug}`}>
           <a>
-            <h2 className="display-4 pt-3 font-weight-bold">{blog.title}</h2>
+            <h3 className="display-7 mt-5 font-weight-bold">{blog.title}</h3>
           </a>
         </Link>
       </header>
 
       <section>
         <p className="mark ml-1 pt-2 pb-2">
-        {blog.postedBy.name}
+        <span>Published By</span>
+
           <Link href={`/profile/${blog.postedBy.username}`}>
-            <a>{blog.postedBy.name}</a>
+           <a> {blog.postedBy.name}</a>
           </Link> | Published {moment(blog.updatedAt).fromNow()}
         </p>
       </section>
@@ -43,7 +44,7 @@ const Card = ({ blog }) => {
       </section>
 
       <div className="row">
-        <div className="col-md-4">
+        <div className="col-md-4 mb-4 mt-2">
           <section>
             <img
               className="img img-fluid"
