@@ -30,8 +30,8 @@ const SignInComponent = () => {
 
     // send data to DB
     signIn(user).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
+      if (data.err) {
+        setValues({ ...values, error: data.err });
       } else {
 
         authenticate(data, () => {

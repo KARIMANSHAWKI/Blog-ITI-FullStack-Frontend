@@ -5,7 +5,7 @@ import { list, removeBlog, updateBlog } from "../../actions/blog";
 import moment from "moment";
 // **************************************************************** //
 
-const ReadBlogs = () => {
+const ReadBlogs = ({username}) => {
   const [blogs, setBlog] = useState([]);
   const [message, setMessage] = useState('');
   const token = getCookie('token');
@@ -15,7 +15,7 @@ const ReadBlogs = () => {
   }, []);
 
   const loadBlogs = () => {
-    list().then((data) => {
+    list(username).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -68,7 +68,7 @@ const ReadBlogs = () => {
         <div key={i} className="pb-5">
           <h3>{blog.title}</h3>
           <p className="mark">
-            Written by {blog.postedBy.username} | Published{" "}
+            Written by {blog.postedBy.name} | Published{" "}
             {moment(blog.updatedAt).fromNow()}
           </p>
           <button
