@@ -7,6 +7,8 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import renderHTML from "react-render-html";
 import SmallCard from "../../components/blog/SmallCard";
+import DisqusThread from '../../components/DisqusThread';
+
 
 const SingleBlog = ({ blog, query }) => {
   const [related, setRelated] = useState([]);
@@ -48,6 +50,15 @@ const SingleBlog = ({ blog, query }) => {
       </div>
     ));
   };
+
+  const showComments = () => {
+    return (
+      <div >
+        <DisqusThread id={blog.id} title={blog.title} path={`/blog/${blog.slug}`}/>
+      </div>
+    )
+  }
+
   const head = () => (
     <Head>
       <title>
@@ -123,8 +134,8 @@ const SingleBlog = ({ blog, query }) => {
               <div className="row">{showRelatedBlog()}</div>
             </div>
 
-            <div className="container pt-3">
-              <p>show comments</p>
+            <div className="container pb-3 pt-5">
+              {showComments()}
             </div>
           </article>
         </main>
