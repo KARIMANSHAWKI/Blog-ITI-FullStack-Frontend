@@ -48,7 +48,7 @@ export const signIn = (user) => {
 };
 
 //  *************************************************************** //
-export const signout = () => {
+export const signout = next => {
   removeCookie("token");
   removeLocalStorage("user");
   next();
